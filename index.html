@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
     <meta charset="UTF-8">
@@ -31,16 +31,28 @@
             height: 100vh;
         }
 
-        /* --- 1. 開場動畫層 --- */
-        #intro-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('ren.jpg') center center / cover no-repeat;
-            z-index: 2000;
-            transition: transform var(--transition-speed) cubic-bezier(0.85, 0, 0.15, 1);
+       /* --- 修正後的開場動畫層 --- */
+#intro-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* 使用 100dvh (Dynamic Viewport Height) 確保排除手機瀏覽器工具列的干擾 */
+    width: 100vw;
+    height: 100vh; 
+    height: 100dvh; 
+    
+    /* 核心修正：背景圖處理 */
+    background: #000 url('ren.jpg') center center no-repeat;
+    /* cover 會裁切邊緣以填滿螢幕；若要看到「完整全圖」不被切到，請改用 contain */
+    background-size: cover; 
+    
+    z-index: 2000;
+    transition: transform var(--transition-speed) cubic-bezier(0.85, 0, 0.15, 1);
+    
+    /* 避免圖片在某些手機上出現捲軸 */
+    overflow: hidden;
+    touch-action: none; 
+
         }
 
         .slide-up {
@@ -221,7 +233,7 @@
                 </div>
 
                 <div class="cta-container">
-                    <a href="https://line.me/ti/p/YourID" class="btn btn-line">
+                    <a href="https://line.me/ti/p/3g2D0uhP7b" class="btn btn-line">
                         <i class="fa-brands fa-line"></i> 一鍵加入 LINE
                     </a>
                     <a href="tel:0961261096" class="btn btn-call">
