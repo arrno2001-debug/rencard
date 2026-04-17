@@ -2,8 +2,8 @@
 <html lang="zh-Hant-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHANG SHOU JEN | Digital Card</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>張守仁 CHANG SHOU JEN | Digital Card</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,54 +14,27 @@
             --matte-black: #121212;
             --accent-silver: #a8a8a8;
             --line-green: #06C755;
-            --transition-speed: 1s;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Noto Sans TC', sans-serif;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans TC', sans-serif; }
+
+        body { background-color: #000; color: #fff; overflow-x: hidden; height: 100vh; }
+
+        /* --- 開場動畫層 --- */
+        #intro-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100dvh;
+            background: #fff url('ren.jpg') center center / contain no-repeat;
+            z-index: 2000;
+            transition: transform 1s cubic-bezier(0.85, 0, 0.15, 1);
         }
 
-        body {
-            background-color: #000;
-            color: #fff;
-            overflow: hidden; /* 動畫期間防止滾動 */
-            height: 100vh;
-        }
+        .slide-up { transform: translateY(-100%); }
 
-       /* --- 修正後的開場動畫層 --- */
-#intro-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    /* 使用 100dvh (Dynamic Viewport Height) 確保排除手機瀏覽器工具列的干擾 */
-    width: 100vw;
-    height: 100vh; 
-    height: 100dvh; 
-    
-    /* 核心修正：背景圖處理 */
-    background: #000 url('ren.jpg') center center no-repeat;
-    /* cover 會裁切邊緣以填滿螢幕；若要看到「完整全圖」不被切到，請改用 contain */
-    background-size: cover; 
-    
-    z-index: 2000;
-    transition: transform var(--transition-speed) cubic-bezier(0.85, 0, 0.15, 1);
-    
-    /* 避免圖片在某些手機上出現捲軸 */
-    overflow: hidden;
-    touch-action: none; 
-
-        }
-
-        .slide-up {
-            transform: translateY(-100%);
-        }
-
-        /* --- 2. 主容器 --- */
+        /* --- 主容器 --- */
         .wrapper {
-            height: 100vh;
+            min-height: 100dvh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -69,7 +42,6 @@
             padding: 20px;
         }
 
-        /* --- 3. 電子名片主體 --- */
         .profile-card {
             position: relative;
             width: 100%;
@@ -78,16 +50,9 @@
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.1);
             box-shadow: 0 40px 100px rgba(0,0,0,0.8);
-            /* 機械切角視覺 */
             clip-path: polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%);
-            animation: fadeIn 1s forwards;
-            animation-delay: 1s;
-            opacity: 0;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* 上方 1/3 金色區塊 */
         .card-top-gold {
             background: var(--gold-gradient);
             height: 160px;
@@ -96,47 +61,31 @@
             position: relative;
         }
 
-        .name {
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 4px;
-            color: #000;
-            margin: 0;
-        }
+        .name { font-size: 1.8rem; font-weight: 700; letter-spacing: 4px; color: #000; margin: 0; }
 
-        /* 頭像跨界設計 */
         .avatar-wrapper {
             position: absolute;
-            bottom: -50px;
-            left: 50%;
+            bottom: -50px; left: 50%;
             transform: translateX(-50%);
-            width: 110px;
-            height: 110px;
+            width: 110px; height: 110px;
             z-index: 5;
         }
 
         .avatar {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             border-radius: 50%;
             object-fit: cover;
-            object-position: top center; /* 修正頭像頂部被擋 */
+            object-position: top center;
             border: 4px solid var(--matte-black);
             box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
 
-        /* 下方資訊區塊 */
-        .card-bottom-info {
-            padding: 65px 25px 40px;
-            text-align: center;
-        }
+        /* 下方資訊區 */
+        .card-bottom-info { padding: 65px 25px 40px; text-align: center; }
 
         .job-title {
             font-size: 0.9rem;
-            color: var(--gold-gradient); /* 職稱用金色文字呼應 */
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #BF953F;
             text-transform: uppercase;
             letter-spacing: 2px;
             font-weight: 500;
@@ -144,63 +93,40 @@
             display: block;
         }
 
-        .contact-list {
-            margin-bottom: 30px;
-            display: inline-block;
-            text-align: left;
-        }
+        .contact-list { margin-bottom: 30px; text-align: left; display: inline-block; }
 
         .contact-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-            color: #ddd;
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: 0.3s;
+            display: flex; align-items: center;
+            margin-bottom: 12px; color: #ddd;
+            text-decoration: none; font-size: 0.95rem;
         }
 
-        .contact-item i {
-            width: 30px;
-            color: #BF953F;
-        }
+        .contact-item i { width: 30px; color: #BF953F; font-size: 1.1rem; }
 
-        /* --- 4. CTA 按鈕 --- */
-        .cta-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+        /* 按鈕區 */
+        .cta-container { display: flex; flex-direction: column; gap: 12px; }
 
         .btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 14px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.9rem;
-            transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+            padding: 14px; border-radius: 4px; text-decoration: none;
+            font-weight: 700; font-size: 0.9rem; transition: 0.3s;
         }
 
         .btn-line { background-color: var(--line-green); color: #fff; }
         .btn-call { border: 1px solid #fff; color: #fff; }
         .btn:hover { transform: scale(1.02); filter: brightness(1.1); }
-        .btn i { margin-right: 8px; font-size: 1.1rem; }
+        .btn i { margin-right: 8px; font-size: 1.2rem; }
 
-        /* --- 5. 存檔詢問彈窗 --- */
+        /* 彈窗樣式 */
         #save-prompt {
             display: none;
             position: fixed;
-            bottom: 30px;
-            left: 50%;
+            bottom: 30px; left: 50%;
             transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.95);
             border: 1px solid #BF953F;
-            padding: 20px;
-            width: 85%;
-            max-width: 340px;
+            padding: 25px;
+            width: 85%; max-width: 340px;
             z-index: 3000;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -214,30 +140,33 @@
     <div class="wrapper">
         <div class="profile-card">
             <div class="card-top-gold">
-                <h1 class="name">張 守 仁</h1>
+                <h1 class="name">張守仁</h1>
                 <div class="avatar-wrapper">
-                    <img src="arrno.jpg" alt="Profile" class="avatar">
+                    <img src="arrno.jpg" alt="張守仁" class="avatar">
                 </div>
             </div>
 
             <div class="card-bottom-info">
-                <span class="job-title">CNC工程師/CNC Programmer</span>
+                <span class="job-title">CNC工程師 / CNC Programmer</span>
 
                 <div class="contact-list">
                     <a href="tel:0961261096" class="contact-item">
-                        <i class="fa-solid fa-phone"></i> 0961261096
+                        <i class="fa-solid fa-mobile-screen"></i> 0961-261-096
                     </a>
                     <a href="mailto:arrno2001@gmail.com" class="contact-item">
                         <i class="fa-solid fa-envelope"></i> arrno2001@gmail.com
                     </a>
+                    <a href="https://arrno2001-debug.github.io/rencard/" class="contact-item" target="_blank">
+                        <i class="fa-solid fa-globe"></i> 個人數位名片
+                    </a>
                 </div>
 
                 <div class="cta-container">
-                    <a href="https://line.me/ti/p/3g2D0uhP7b" class="btn btn-line">
-                        <i class="fa-brands fa-line"></i> 一鍵加入 LINE
+                    <a href="https://line.me/ti/p/3g2D0uhP7b" class="btn btn-line" target="_blank">
+                        <i class="fa-brands fa-line"></i> 加入 LINE 諮詢
                     </a>
                     <a href="tel:0961261096" class="btn btn-call">
-                        <i class="fa-solid fa-phone-flip"></i> 一鍵撥打電話
+                        <i class="fa-solid fa-phone-flip"></i> 撥打電話
                     </a>
                 </div>
             </div>
@@ -245,57 +174,48 @@
     </div>
 
     <div id="save-prompt">
-        <p style="margin-bottom: 15px; font-size: 0.9rem;">要儲存 張守仁 的電子名片嗎？</p>
+        <p style="margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5;">
+            需要儲存 <strong>張守仁</strong> 的<br>聯絡資訊至通訊錄嗎？
+        </p>
         <div style="display: flex; gap: 10px;">
-            <button onclick="downloadPage()" style="flex: 1; padding: 10px; background: #BF953F; border: none; color: #000; font-weight: bold; cursor: pointer;">儲存</button>
-            <button onclick="document.getElementById('save-prompt').style.display='none'" style="flex: 1; padding: 10px; background: transparent; border: 1px solid #fff; color: #fff; cursor: pointer;">取消</button>
+            <button onclick="downloadVCF()" style="flex: 1; padding: 12px; background: #BF953F; border: none; color: #000; font-weight: bold; cursor: pointer;">儲存</button>
+            <button onclick="closePrompt()" style="flex: 1; padding: 12px; background: transparent; border: 1px solid #fff; color: #fff; cursor: pointer;">取消</button>
         </div>
     </div>
 
     <script>
-    // 開場動畫處理
-    window.addEventListener('load', () => {
-        // 1. 執行開場動畫
-        setTimeout(() => {
-            document.getElementById('intro-screen').classList.add('slide-up');
-            document.body.style.overflow = 'auto'; 
-        }, 1000);
-
-        // 2. 檢查是否已經儲存過
-        // localStorage 會紀錄在該瀏覽器中，若已儲存過則不再執行 5 秒彈窗
-        const hasSaved = localStorage.getItem('hasSavedCard');
-
-        if (!hasSaved) {
-            // 如果沒存過，5秒後詢問存檔
+        // 動畫與彈窗邏輯
+        window.addEventListener('load', () => {
+            // 1秒開場滑出
             setTimeout(() => {
-                const prompt = document.getElementById('save-prompt');
-                if(prompt) prompt.style.display = 'block';
-            }, 5000);
+                document.getElementById('intro-screen').classList.add('slide-up');
+            }, 1000);
+
+            // 檢查是否存過，15秒後跳出彈窗
+            if (!localStorage.getItem('renVcfSaved')) {
+                setTimeout(() => {
+                    document.getElementById('save-prompt').style.display = 'block';
+                }, 15000);
+            }
+        });
+
+        // 執行下載 ren.vcf
+        function downloadVCF() {
+            // 直接連結到您上傳到 GitHub 的 ren.vcf 檔案
+            const link = document.createElement('a');
+            link.href = 'ren.vcf'; 
+            link.download = 'ren.vcf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            localStorage.setItem('renVcfSaved', 'true');
+            closePrompt();
         }
-    });
 
-    // 存檔功能
-    function downloadPage() {
-        // A. 先在本地瀏覽器標記「已儲存」
-        localStorage.setItem('hasSavedCard', 'true');
-
-        // B. 執行下載
-        const fileName = "CHANG SHOU JEN.html";
-        // 這裡我們稍微修改內容，確保下載下來的檔案即使換了瀏覽器也能偵測到（選用）
-        const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-        const blob = new Blob([htmlContent], { type: 'text/html' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
-        // C. 隱藏彈窗
-        document.getElementById('save-prompt').style.display = 'none';
-        
-        alert("名片已嘗試儲存！下次在此瀏覽器開啟將不再詢問。");
-    }
-</script>
+        function closePrompt() {
+            document.getElementById('save-prompt').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
