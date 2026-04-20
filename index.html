@@ -184,38 +184,58 @@
     </div>
 
     <script>
-        // 動畫與彈窗邏輯
-        window.addEventListener('load', () => {
-            // 1秒開場滑出
+    // --- 1. 時效性設定 ---
+    // 設定名片的有效期限 (年, 月-1, 日)
+    // 範例：2026年12月31日過期 (月份從0開始，11代表12月)
+    const expiryDate = new Date(2026, 11, 31); 
+    const today = new Date();
+
+    window.addEventListener('load', () => {
+        
+        // --- 2. 時效性檢查 (最優先執行) ---
+        if (today > expiryDate) {
+            // 如果過期，直接覆蓋頁面內容並終止後續動畫
+            document.body.innerHTML = `
+                <div style="background:#000; color:#BF953F; text-align:center; padding:100px 20px; font-family:sans-serif;">
+                    <i class="fa-solid fa-calendar-xmark" style="font-size:3rem; margin-bottom:20px;"></i>
+                    <h2>此電子名片連結已失效</h2>
+                    <p style="color:#fff; margin-top:10px;">請聯繫 張守仁 取得最新資訊</p>
+                </div>`;
+            return; 
+        }
+
+        // --- 3. 開場動畫 (1秒滑出) ---
+        setTimeout(() => {
+            const intro = document.getElementById('intro-screen');
+            if(intro) intro.classList.add('slide-up');
+        }, 1000);
+
+        // --- 4. 15秒存檔詢問邏輯 ---
+        // 檢查 LocalStorage 是否已經存過
+        if (!localStorage.getItem('renVcfSaved')) {
             setTimeout(() => {
-                document.getElementById('intro-screen').classList.add('slide-up');
-            }, 1000);
-
-            // 檢查是否存過，15秒後跳出彈窗
-            if (!localStorage.getItem('renVcfSaved')) {
-                setTimeout(() => {
-                    document.getElementById('save-prompt').style.display = 'block';
-                }, 15000);
-            }
-        });
-
-        // 執行下載 ren.vcf
-        function downloadVCF() {
-            // 直接連結到您上傳到 GitHub 的 ren.vcf 檔案
-            const link = document.createElement('a');
-            link.href = 'ren.vcf'; 
-            link.download = 'ren.vcf';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            localStorage.setItem('renVcfSaved', 'true');
-            closePrompt();
+                const prompt = document.getElementById('save-prompt');
+                if(prompt) prompt.style.display = 'block';
+            }, 15000); 
         }
+    });
 
-        function closePrompt() {
-            document.getElementById('save-prompt').style.display = 'none';
-        }
-    </script>
+    // --- 5. 儲存 VCF 功能 ---
+    function downloadVCF() {
+        const link = document.createElement('a');
+        link.href = 'ren.vcf'; 
+        link.download = 'ren.vcf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        localStorage.setItem('renVcfSaved', 'true');
+        closePrompt();
+    }
+
+    function closePrompt() {
+        document.getElementById('save-prompt').style.display = 'none';
+    }
+</script>
 </body>
 </html>
